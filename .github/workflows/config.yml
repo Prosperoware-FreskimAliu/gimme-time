@@ -14,14 +14,15 @@ jobs:
         with:
           github_token: ${{ secrets.TOKEN }}
           
-      - name: Changelog
-        uses: scottbrenner/generate-changelog-action@master
-        id: Changelog
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: |
-            ${{ steps.Changelog.outputs.changelog }}
+          name: New Release (${{ steps.tag_version.outputs.new_tag }})
+          body: ${{steps.github_release.outputs.changelog}}
