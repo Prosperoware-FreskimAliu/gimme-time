@@ -9,11 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.6
-        with:
-          github_token: ${{ secrets.TOKEN }}
+      - name: Test
+        run: echo Test
       
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
