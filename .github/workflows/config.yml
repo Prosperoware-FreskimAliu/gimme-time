@@ -4,22 +4,17 @@ on:
       - master
   workflow_dispatch:
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  success:
+    name: One with everything
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Test
-        run: echo Test
-      
+      - uses: actions/checkout@master
       - name: Microsoft Teams Notification
         uses: skitionek/notify-microsoft-teams@master
         if: always()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          raw: >-
-            {
-              "@type": "MessageCard",
-              "@context": "http://schema.org/extensions",
-              "title": "No ${variables} avaliable in here"
-            }
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: True
