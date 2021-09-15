@@ -14,15 +14,10 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.6
         with:
           github_token: ${{ secrets.TOKEN }}
-  
-  if_failure:
-    name: Only if failure
-    runs-on: ubuntu-18.04
-    steps:
+      
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
         uses: skitionek/notify-microsoft-teams@master
         if: failure()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-
