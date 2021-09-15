@@ -4,17 +4,17 @@ on:
       - master
   workflow_dispatch:
 jobs:
-  success:
-    name: One with everything
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
-      - name: Microsoft Teams Notification
-        uses: skitionek/notify-microsoft-teams@master
-        if: always()
+      - uses: actions/checkout@v2
+      # this is the new step using the ms-teams-notification action
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
         with:
-          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
-          dry_run: True
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Your custom notification message 
+          notification-color: 17a2b8
+          timezone: America/Denver
