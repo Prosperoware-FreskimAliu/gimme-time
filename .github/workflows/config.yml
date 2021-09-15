@@ -9,12 +9,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      # this is the new step using the ms-teams-notification action
-      - name: Notify dedicated teams channel
-        uses: jdcargile/ms-teams-notification@v1.3
+      # this is the new step
+      - uses: toko-bifrost/ms-teams-deploy-card@master #  or "./" if in a local set-up
+        if: always()
         with:
-          github-token: ${{ github.token }} # this will use the runner's token.
-          ms-teams-webhook-uri: ${{ secrets.MSTEAMS_WEBHOOK }}
-          notification-summary: Your custom notification message 
-          notification-color: 17a2b8
-          timezone: America/Denver
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MSTEAMS_WEBHOOK }}
