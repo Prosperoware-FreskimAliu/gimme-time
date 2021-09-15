@@ -16,4 +16,4 @@ jobs:
           github-token: ${{ github.token }}
           webhook-uri: ${{ secrets.MSTEAMS_WEBHOOK }}
           show-on-start: false
-          card-layout-exit: cozy
+          card-layout-exit: complete
