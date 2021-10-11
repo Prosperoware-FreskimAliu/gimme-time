@@ -19,4 +19,4 @@ jobs:
       - if: ${{ steps.xyz.outputs.skip_deploy == 'true'}}
         name: step-2
         run: |
-          echo "${{ steps.skip_deployment.outputs.skip_deploy }}"
+          echo "${{ steps.xyz.outputs.skip_deploy }}"
