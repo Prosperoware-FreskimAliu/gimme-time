@@ -9,7 +9,7 @@ jobs:
         run: | 
           echo "sls deploy" >> log.txt
           echo "Serverless: Service files not changed. Skipping deployment" >> log.txt
-          if grep -q ""Serverless: Service files not changed. Skipping deployment"" log.txt; then
+          if grep -q "Serverless: Service files not changed. Skipping deployment" log.txt; then
             echo "::set-output name=skip_deploy::true"
           else 
             echo "::set-output name=skip_deploy::false"
