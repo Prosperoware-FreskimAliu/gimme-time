@@ -6,12 +6,11 @@ jobs:
     steps:
       - name: step-1
         id: xyz
-        uses: actions/create-release@v1
-        with:
-          tag_name: 1.32.1
-          release_name: 1.32.1
-          body: "This is release 1.32.1"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: step-2
-        run: echo "${{ steps.xyz.outputs.* }}"
+        run: | 
+          echo "sls deploy" >> log.txt
+          echo "Serverless: Service files not changed. Skipping deployment" >> log.txt
+          grep -q "Serverless: Service files not changed. Skipping deployment" log.txt
+
+          if [ $? -eq 0 ]; then
+               echo "serverless deploy --force"
+          fi
