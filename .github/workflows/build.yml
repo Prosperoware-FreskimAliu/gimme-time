@@ -27,4 +27,9 @@ jobs:
       - name: Update package version
         run: |
           jq -r '."version" = "${{ steps.get_current_tag.outputs.tag }}"' package.json | sponge package.json
-
+          
+      - name: Push to repo
+        run: |
+          git add package.json
+          git commit -m "Update version: "${{ steps.get_current_tag.outputs.tag }}"
+          git push
