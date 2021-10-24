@@ -30,6 +30,7 @@ jobs:
           
       - name: Push to repo
         run: |
+          git config --global user.name "${GITHUB_ACTOR}"
           git add package.json
           git commit -m "Update version: "${{ steps.get_current_tag.outputs.tag }}""
           git push
