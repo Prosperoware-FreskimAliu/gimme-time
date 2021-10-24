@@ -1,21 +1,30 @@
-name: Build
-on: workflow_dispatch
+name: "Release Workflow"
+on:
+  push:
+    tags:
+      - "v*"
+
 jobs:
-  my-job:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - name: step-1
-        id: xyz
-        run: | 
-          echo "sls deploy" >> log.txt
-          echo "Serverless: Stack update finished..." >> log.txt
-          if grep -q "Serverless: Service files not changed. Skipping deployment" log.txt; then
-            echo "::set-output name=skip_deploy::true"
-          else 
-            echo "::set-output name=skip_deploy::false"
-          fi
-  
-      - if: ${{ steps.xyz.outputs.skip_deploy == 'true'}}
-        name: step-2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install requirements
         run: |
-          echo "${{ steps.xyz.outputs.skip_deploy }}"
+          sudo apt-get install -y jq moreutils
+
+      - name: Get tag name
+        id: get_current_tag
+        run: |
+          TAG=$(git describe --tags --abbrev=0 | tr -d v)
+          echo "Current tag: $TAG"
+          echo ::set-output name=tag::${TAG}
+
+      - name: Update package version
+        run: |
+          jq -r '."version" = "${{ steps.get_current_tag.outputs.tag }}"' package.json | sponge package.json
+
