@@ -8,6 +8,7 @@ env:
   S3_key: apps-services/github-${{ github.run_number }}/apps-services.zip
   S3_bucket: cam.retention.prosperowaredev.io.jenkins.lambda
   lambda_prefix: prosperowaredev-io-CAM-v1-CaseCreator
+
 jobs:
   deploy:
     name: Deploy App
@@ -29,6 +30,5 @@ jobs:
 
       - name: Package Application
         run: serverless package --stage dev --package ./target
-        
-      - run: ls
+    
         
