@@ -6,6 +6,9 @@ provider:
   environment:
     STAGE: ${opt:stage}
 
+package:
+  artifact: ${opt:artifact, ""}
+
 functions:
   gimmetime:
     handler: handler.gimmetime
